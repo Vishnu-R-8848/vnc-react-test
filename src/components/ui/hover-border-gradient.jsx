@@ -16,10 +16,10 @@ export function HoverBorderGradient({
 
   const rotateDirection = (currentDirection) => {
     const directions = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
-    const currentIndex = directions.indexOf(currentDirection);
+    const index = directions.indexOf(currentDirection);
     const nextIndex = clockwise
-      ? (currentIndex - 1 + directions.length) % directions.length
-      : (currentIndex + 1) % directions.length;
+      ? (index - 1 + directions.length) % directions.length
+      : (index + 1) % directions.length;
     return directions[nextIndex];
   };
 
@@ -29,11 +29,11 @@ export function HoverBorderGradient({
     BOTTOM:
       "radial-gradient(20.7% 50% at 50% 100%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
     RIGHT:
-      "radial-gradient(16.2% 41.2% at 100% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
+      "radial-gradient(16.2% 41.199999999999996% at 100% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
   };
 
   const highlight =
-    "radial-gradient(75% 181% at 50% 50%, #60A5FA 0%, rgba(255, 255, 255, 0) 100%)";
+    "radial-gradient(75% 181.15942028985506% at 50% 50%, #ffffff 0%, rgba(255, 255, 255, 0) 100%)";
 
   useEffect(() => {
     if (!hovered) {
@@ -49,21 +49,23 @@ export function HoverBorderGradient({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        "relative flex rounded-full border border-neutral-800 bg-[#111827] text-white hover:bg-neutral-900 transition-colors items-center flex-col flex-nowrap justify-center overflow-hidden p-px text-center w-fit cursor-pointer",
+        "relative flex rounded-full border border-neutral-800 content-center bg-black/20 hover:bg-black/10 transition duration-500 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit cursor-pointer",
         containerClassName
       )}
       {...props}
     >
       <div
         className={cn(
-          "w-auto text-white z-10 bg-[#111827] rounded-full",
+          "w-auto text-white z-10 bg-black px-4 py-2 rounded-[inherit]",
           className
         )}
       >
         {children}
       </div>
       <motion.div
-        className="flex-none inset-0 overflow-hidden absolute z-0 rounded-full"
+        className={cn(
+          "flex-none inset-0 overflow-hidden absolute z-0 rounded-[inherit]"
+        )}
         style={{
           filter: "blur(2px)",
           position: "absolute",
@@ -78,7 +80,7 @@ export function HoverBorderGradient({
         }}
         transition={{ ease: "linear", duration: duration ?? 1 }}
       />
-      <div className="bg-[#111827] absolute z-1 flex-none inset-[1px] rounded-full" />
+      <div className="bg-black absolute z-1 flex-none inset-[2px] rounded-[100px]" />
     </Tag>
   );
 }

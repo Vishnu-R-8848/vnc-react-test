@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import heroImg from "../../assets/hero.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -71,7 +72,7 @@ export default function Footer() {
             <a href="#home" className="inline-flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-full overflow-hidden border border-neutral-200 bg-neutral-900 text-white flex items-center justify-center font-bold text-xs font-mono">
                 <img
-                  src="/hero.png"
+                  src={heroImg}
                   alt="Vishnu"
                   className="w-full h-full object-cover"
                   onError={(e) => {

@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
+import heroImg from "../../assets/hero.png";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [imgError, setImgError] = useState(false);
 
   const navLinks = [
     { label: "Home", href: "#home", id: "home" },
@@ -54,24 +56,18 @@ export default function Header() {
           className="flex items-center gap-2.5 group"
         >
           <div className="relative w-8 h-8 rounded-full overflow-hidden border border-neutral-200/90 bg-neutral-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-            <img
-              src="/hero.png"
-              alt="Vishnu Naik Chouhan"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                // Fallback to stylized monogram if image fails
-                e.currentTarget.style.display = "none";
-                if (e.currentTarget.nextSibling) {
-                  e.currentTarget.nextSibling.style.display = "flex";
-                }
-              }}
-            />
-            <span
-              style={{ display: "none" }}
-              className="w-full h-full items-center justify-center font-mono font-bold text-xs text-neutral-800"
-            >
-              VN
-            </span>
+            {!imgError ? (
+              <img
+                src={heroImg}
+                alt="Vishnu Naik Chouhan"
+                className="w-full h-full object-cover"
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <span className="w-full h-full flex items-center justify-center font-mono font-bold text-xs text-neutral-800">
+                VN
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col">
