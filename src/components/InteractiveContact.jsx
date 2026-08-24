@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, Check, Copy } from "lucide-react";
+import { Globe, Check, Copy, Mail, ArrowUpRight } from "lucide-react";
 
 const GithubIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     stroke="currentColor"
     strokeWidth="2"
     fill="none"
@@ -22,8 +22,8 @@ const GithubIcon = (props) => (
 const LinkedinIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     stroke="currentColor"
     strokeWidth="2"
     fill="none"
@@ -40,8 +40,8 @@ const LinkedinIcon = (props) => (
 const TwitterIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     stroke="currentColor"
     strokeWidth="2"
     fill="none"
@@ -57,8 +57,8 @@ const TwitterIcon = (props) => (
 const InstagramIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     stroke="currentColor"
     strokeWidth="2"
     fill="none"
@@ -75,6 +75,7 @@ const InstagramIcon = (props) => (
 const channels = [
   {
     id: "github",
+    name: "GitHub",
     domain: "github.com",
     handle: "vishnu-naik-chouhan",
     icon: GithubIcon,
@@ -82,6 +83,7 @@ const channels = [
   },
   {
     id: "linkedin",
+    name: "LinkedIn",
     domain: "linkedin.com/in",
     handle: "vishnu-naik-chouhan",
     icon: LinkedinIcon,
@@ -89,6 +91,7 @@ const channels = [
   },
   {
     id: "twitter",
+    name: "Twitter / X",
     domain: "x.com",
     handle: "vnc_xt",
     icon: TwitterIcon,
@@ -96,23 +99,25 @@ const channels = [
   },
   {
     id: "instagram",
+    name: "Instagram",
     domain: "instagram.com",
     handle: "vishnu_naik_chouhan",
     icon: InstagramIcon,
     copyValue: "https://www.instagram.com/vishnu_naik_chouhan_/",
   },
   {
-    id: "portfolio",
-    domain: "portfolio.dev",
-    handle: "vishnu-naik-chouhan",
-    icon: Globe,
-    copyValue: "https://vishnu-naik-chouhan.dev",
+    id: "email",
+    name: "Direct Email",
+    domain: "mailto",
+    handle: "vishnu.naik.chouhan@gmail.com",
+    icon: Mail,
+    copyValue: "vishnu.naik.chouhan@gmail.com",
   },
 ];
 
 export default function InteractiveContact() {
   const [activeChannel, setActiveChannel] = useState(channels[0]);
-  const [hoveredType, setHoveredType] = useState(null); // 'domain' | 'handle' | null
+  const [hoveredType, setHoveredType] = useState(null);
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef(null);
@@ -130,7 +135,7 @@ export default function InteractiveContact() {
     try {
       await navigator.clipboard.writeText(activeChannel.copyValue);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2200);
     } catch (err) {
       console.error("Failed to copy link: ", err);
     }
@@ -161,21 +166,30 @@ export default function InteractiveContact() {
   }, [hoveredType, activeChannel]);
 
   return (
-    <section className="w-full max-w-4xl mx-auto my-8 sm:my-12 py-8 flex flex-col items-center justify-center text-center">
-      {/* Status Pill Badge */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200/60 mb-6 sm:mb-8 font-mono text-[11px] text-neutral-600 uppercase tracking-widest">
-        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-        <span>Interactive Network Telemetry</span>
+    <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center font-sans select-none">
+      {/* Technical Index Header */}
+      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100/90 border border-neutral-200/80 mb-6 font-mono text-[10px] sm:text-[11px] text-neutral-500 uppercase tracking-widest shadow-2xs">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span className="text-neutral-700 font-semibold">// 04.00 CONNECT & NETWORK</span>
+        <span className="text-neutral-300">•</span>
+        <span>CHANNEL ACTIVE</span>
       </div>
+
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-neutral-900 mb-3">
+        Let’s Build Something Exceptional
+      </h2>
+      <p className="text-xs sm:text-sm font-mono text-neutral-500 max-w-md mx-auto mb-8">
+        Click the interactive address row to copy telemetry handle
+      </p>
 
       {/* Main Address Display (Click to Copy) */}
       <div
         ref={containerRef}
         onClick={handleCopy}
         title="Click to copy target link"
-        className="relative group cursor-pointer flex flex-wrap items-center justify-center text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold font-mono tracking-tight text-neutral-900 select-none py-4 px-3 rounded-2xl transition-colors hover:bg-neutral-50 max-w-full overflow-hidden"
+        className="relative group cursor-pointer flex flex-wrap items-center justify-center text-base sm:text-xl md:text-2xl lg:text-3xl font-bold font-mono tracking-tight text-neutral-900 select-none py-4 px-6 rounded-2xl bg-white border border-neutral-200/90 shadow-xs hover:border-neutral-300 hover:bg-neutral-50/70 transition-all max-w-full overflow-hidden"
       >
-        <span className="text-neutral-400 font-normal mr-1">@</span>
+        <span className="text-neutral-400 font-normal mr-1.5">@</span>
 
         {/* Domain Segment */}
         <motion.span
@@ -183,16 +197,16 @@ export default function InteractiveContact() {
           onMouseEnter={() => setHoveredType("domain")}
           onMouseLeave={() => setHoveredType(null)}
           animate={{
-            filter: hoveredType === "handle" ? "blur(4px)" : "blur(0px)",
-            opacity: hoveredType === "handle" ? 0.3 : 1,
+            filter: hoveredType === "handle" ? "blur(3px)" : "blur(0px)",
+            opacity: hoveredType === "handle" ? 0.35 : 1,
           }}
-          transition={{ duration: 0.2 }}
-          className="text-neutral-800 transition-colors hover:text-black"
+          transition={{ duration: 0.15 }}
+          className="text-neutral-700 hover:text-neutral-950 transition-colors"
         >
           {activeChannel.domain}
         </motion.span>
 
-        <span className="mx-1.5 text-neutral-300 font-normal">/</span>
+        <span className="mx-2 text-neutral-300 font-normal">/</span>
 
         {/* Handle Segment */}
         <motion.span
@@ -200,11 +214,11 @@ export default function InteractiveContact() {
           onMouseEnter={() => setHoveredType("handle")}
           onMouseLeave={() => setHoveredType(null)}
           animate={{
-            filter: hoveredType === "domain" ? "blur(4px)" : "blur(0px)",
-            opacity: hoveredType === "domain" ? 0.3 : 1,
+            filter: hoveredType === "domain" ? "blur(3px)" : "blur(0px)",
+            opacity: hoveredType === "domain" ? 0.35 : 1,
           }}
-          transition={{ duration: 0.2 }}
-          className="text-neutral-900 transition-colors hover:text-blue-600 truncate max-w-full"
+          transition={{ duration: 0.15 }}
+          className="text-neutral-900 hover:text-blue-600 transition-colors truncate max-w-full"
         >
           {activeChannel.handle}
         </motion.span>
@@ -219,8 +233,8 @@ export default function InteractiveContact() {
         )}
       </div>
 
-      {/* Copy Feedback */}
-      <div className="h-6 mt-3 sm:mt-4 flex items-center justify-center font-mono text-xs">
+      {/* Copy Feedback Indicator */}
+      <div className="h-6 mt-4 flex items-center justify-center font-mono text-xs">
         <AnimatePresence mode="wait">
           {copied ? (
             <motion.span
@@ -228,9 +242,9 @@ export default function InteractiveContact() {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              className="inline-flex items-center gap-1.5 text-emerald-600 font-medium"
+              className="inline-flex items-center gap-1.5 text-emerald-600 font-medium bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200"
             >
-              <Check className="w-3.5 h-3.5" /> Copied link to clipboard!
+              <Check className="w-3.5 h-3.5" /> Copied {activeChannel.name} link!
             </motion.span>
           ) : (
             <motion.span
@@ -240,51 +254,53 @@ export default function InteractiveContact() {
               exit={{ opacity: 0 }}
               className="inline-flex items-center gap-1.5 text-neutral-400"
             >
-              <Copy className="w-3 h-3" /> Click address to copy link
+              <Copy className="w-3 h-3" /> Click address bar to copy to clipboard
             </motion.span>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Social Icons (Hover to switch active channel) */}
-      <div className="mt-6 sm:mt-8 flex items-center gap-2 sm:gap-4 p-2 rounded-full border border-neutral-200/80 bg-neutral-50/80">
+      {/* Social Selector Row (Hover or Click to switch active channel) */}
+      <div className="mt-8 flex items-center gap-2 sm:gap-3 p-1.5 rounded-full border border-neutral-200/80 bg-white shadow-2xs">
         {channels.map((channel) => {
           const Icon = channel.icon;
           const isActive = activeChannel.id === channel.id;
 
           return (
-            <motion.div
+            <motion.button
               key={channel.id}
+              onClick={() => setActiveChannel(channel)}
               onMouseEnter={() => setActiveChannel(channel)}
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
-              className={`relative p-3 rounded-full cursor-pointer transition-colors ${
+              aria-label={channel.name}
+              className={`relative p-2.5 sm:p-3 rounded-full cursor-pointer transition-colors ${
                 isActive
-                  ? "text-neutral-900 font-bold"
-                  : "text-neutral-500 hover:text-neutral-900"
+                  ? "text-neutral-900"
+                  : "text-neutral-400 hover:text-neutral-800"
               }`}
             >
-              <Icon className="w-5 h-5 relative z-10" />
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
 
               {isActive && (
                 <motion.div
-                  layoutId="channel-pill"
-                  className="absolute inset-0 bg-blue-100 rounded-full border border-blue-200 -z-0"
-                  transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                  layoutId="channel-active-pill"
+                  className="absolute inset-0 bg-blue-100/80 rounded-full border border-blue-300/80 -z-0"
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 />
               )}
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>
-    </section>
+    </div>
   );
 }
 
 function AnimatedDashBracket({ x, width, label }) {
   const paddingX = 6;
   const boxWidth = width + paddingX * 2;
-  const boxHeight = 12;
+  const boxHeight = 10;
 
   const pathD = `M 0 0 L 0 ${boxHeight} L ${boxWidth} ${boxHeight} L ${boxWidth} 0`;
 
@@ -293,7 +309,7 @@ function AnimatedDashBracket({ x, width, label }) {
       layoutId="dash-box"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, x: x - paddingX }}
-      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+      transition={{ type: "spring", stiffness: 400, damping: 32 }}
       className="pointer-events-none absolute top-full left-0 mt-1 flex flex-col items-start"
     >
       <svg
@@ -305,7 +321,7 @@ function AnimatedDashBracket({ x, width, label }) {
       >
         <motion.path
           d={pathD}
-          stroke="#93C5FD"
+          stroke="#3B82F6"
           strokeWidth="1.5"
           strokeDasharray="4 4"
           initial={{ strokeDashoffset: 0 }}
@@ -314,7 +330,7 @@ function AnimatedDashBracket({ x, width, label }) {
         />
       </svg>
 
-      <div className="mt-1 font-mono text-[10px] text-neutral-400 whitespace-nowrap overflow-hidden">
+      <div className="mt-1 font-mono text-[9px] text-neutral-400 whitespace-nowrap overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.span
             key={label}

@@ -7,50 +7,57 @@ import {
 } from "framer-motion";
 
 const defaultBio =
-  "I AM VISHNU NAIK CHOUHAN, A FULL STACK WEB DEVELOPER AND COMPUTER APPLICATIONS SCHOLAR BASED IN KARNATAKA, INDIA. I SPECIALIZE IN DESIGNING AND ENGINEERING SCALABLE, PRODUCTION-GRADE WEB APPLICATIONS. MY ENGINEERING PHILOSOPHY REVOLVES AROUND DETERMINISTIC SYSTEM ARCHITECTURE ON THE BACKEND PAIRED WITH SUB-MILLISECOND, AWWWARDS-CALIBER MOTION CRAFT ON THE FRONTEND. WHETHER OPTIMIZING MERN MICROSERVICES, ARCHITECTING RESTFUL GATEWAYS, OR FINE-TUNING 60 FPS GSAP SCROLLTRIGGER TIMELINES, I BUILD FOR CLARITY, MODULARITY, AND ZERO BLOAT.";
+  "I AM VISHNU NAIK CHOUHAN, A FULL STACK ENGINEER CRAFTING HIGH-PERFORMANCE MERN PLATFORMS, REACTIVE NEXT.JS ARCHITECTURES, AND 60 FPS GSAP MOTION EXPERIENCES. WHETHER SCALING DISTRIBUTED MICROSERVICES, FINE-TUNING REST GATEWAYS, OR ARCHITECTING INTERACTIVE INTERFACES, I BUILD FOR RAW SPEED, MODULARITY, AND SUB-MILLISECOND PRECISION.";
 
 export function Skiper28({ text = defaultBio }) {
   const targetRef = useRef(null);
-
-  // Track progress strictly from when container enters until it unpins
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start start", "end end"],
+    offset: ["start end", "end start"],
   });
 
-  // Balanced translateY: scrolls upward smoothly and terminates at 0px without extra blank delay
-  const yMotionValue = useTransform(scrollYProgress, [0, 1], [380, -180]);
-  const transform = useMotionTemplate`rotateX(30deg) translateY(${yMotionValue}px) translateZ(10px)`;
+  const yMotionValue = useTransform(scrollYProgress, [0, 1], [380, -280]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.2, 1, 1, 0.2]);
+  const transform = useMotionTemplate`rotateX(26deg) translateY(${yMotionValue}px) translateZ(10px)`;
 
   return (
     <div
       ref={targetRef}
-      className="relative z-0 h-[140vh] w-full bg-white text-black overflow-hidden select-none"
+      className="relative z-0 h-[140vh] sm:h-[160vh] w-full bg-transparent text-neutral-900 select-none font-sans"
     >
-      {/* Top Scroll Indicator */}
-      <div className="sticky top-6 left-1/2 -translate-x-1/2 grid content-start justify-items-center gap-3 text-center text-black pointer-events-none select-none z-10">
-        <span className="relative text-[10px] font-mono uppercase tracking-[0.2em] opacity-40 after:absolute after:left-1/2 after:top-full after:h-6 after:w-px after:bg-gradient-to-b after:from-neutral-400 after:to-transparent after:content-['']">
-          scroll down to see
-        </span>
-      </div>
+      <div className="sticky top-20 mx-auto flex h-[65vh] sm:h-[75vh] flex-col items-center justify-center overflow-hidden">
+        {/* Top Scroll Indicator */}
+        <div className="mb-4 sm:mb-6 grid content-start justify-items-center gap-3 text-center text-neutral-900 pointer-events-none select-none z-20">
+          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+            // 02.01 SCROLL TO EXPLORE BIO
+          </span>
+          <span className="h-8 w-px bg-gradient-to-b from-neutral-400 to-transparent" />
+        </div>
 
-      {/* 3D Perspective Stage */}
-      <div
-        className="sticky top-0 mx-auto flex h-screen w-full items-center justify-center bg-transparent py-10"
-        style={{
-          transformStyle: "preserve-3d",
-          perspective: "200px",
-        }}
-      >
-        <motion.div
+        {/* 3D Perspective Stage */}
+        <div
+          className="relative w-full flex items-center justify-center"
           style={{
             transformStyle: "preserve-3d",
-            transform,
+            perspective: "260px",
           }}
-          className="w-full max-w-5xl px-6 text-center text-4xl sm:text-6xl md:text-7xl font-extrabold italic uppercase tracking-tighter text-[#ff5800] select-none leading-[0.92]"
         >
-          {text}
-        </motion.div>
+          <motion.div
+            style={{
+              transformStyle: "preserve-3d",
+              transform,
+              opacity,
+            }}
+            className="w-full max-w-4xl px-4 sm:px-6 text-center text-2xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-neutral-900 select-none leading-[1.12]"
+          >
+            <span className="text-neutral-900">{text.split("I BUILD")[0]}</span>
+            <span className="text-[#FF5500]">I BUILD{text.split("I BUILD")[1]}</span>
+          </motion.div>
+        </div>
+
+        {/* Top & Bottom Fade Gradient Masks seamlessly matching #fafafa */}
+        <div className="pointer-events-none absolute bottom-0 left-0 h-28 sm:h-36 w-full bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute top-0 left-0 h-16 w-full bg-gradient-to-b from-[#fafafa] to-transparent z-10" />
       </div>
     </div>
   );
