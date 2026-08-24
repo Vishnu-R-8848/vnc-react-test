@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Grid } from "@/components/ui/grid-pattern-features";
 import { cn } from "@/lib/utils";
 
 const IconArrowUpRight = (props) => (
@@ -36,38 +37,63 @@ const IconGithub = (props) => (
 );
 
 export const HorizontalProjects = ({ projects = [] }) => {
-  const targetRef = useRef(null);
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const [scrollRange, setScrollRange] = useState(1400);
+
+  useEffect(() => {
+    const calculateScrollRange = () => {
+      if (trackRef.current) {
+        const trackWidth = trackRef.current.scrollWidth;
+        const windowWidth = window.innerWidth;
+        const totalDistance = Math.max(0, trackWidth - windowWidth + 80);
+        setScrollRange(totalDistance);
+      }
+    };
+
+    calculateScrollRange();
+    window.addEventListener("resize", calculateScrollRange);
+    return () => window.removeEventListener("resize", calculateScrollRange);
+  }, [projects]);
+
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Slide horizontally across all cards with generous travel
-  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-72%"]);
-  const progressBarWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 30,
+    stiffness: 200,
+  });
+
+  const x = useTransform(smoothProgress, [0, 1], [0, -scrollRange]);
+  const progressBarWidth = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[320vh] w-full bg-[#050507]">
-      {/* Sticky Pinned Container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-10 overflow-hidden select-none">
+    <section
+      ref={containerRef}
+      className="relative h-[320vh] w-full bg-[#050507]"
+    >
+      {/* Sticky Pinned Viewport Container */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-8 sm:py-10 overflow-hidden select-none">
         
-        {/* Section Header with Live Scroll Progress Bar */}
+        {/* Section Header */}
         <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex flex-col gap-2 z-20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
-                Projects Showcase
+                Featured Projects
               </h2>
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400">
-                Pinned Scroll
+                Horizontal Scroll
               </span>
             </div>
             <span className="font-mono text-xs text-neutral-500">
-              {projects.length} Production Builds
+              {projects.length} Core Builds
             </span>
           </div>
 
-          {/* Dynamic Scroll Progress Track */}
+          {/* Dynamic Scroll Progress Bar */}
           <div className="w-full h-0.5 bg-neutral-900 rounded-full overflow-hidden mt-1">
             <motion.div
               style={{ width: progressBarWidth }}
@@ -76,86 +102,106 @@ export const HorizontalProjects = ({ projects = [] }) => {
           </div>
         </div>
 
-        {/* Horizontal Card Track Sliding from Side */}
+        {/* Horizontal Track with Spacious ~520px Height Cards */}
         <div className="w-full overflow-hidden my-auto py-4">
-          <motion.div style={{ x }} className="flex gap-6 sm:gap-8 px-6 sm:px-12">
+          <motion.div
+            ref={trackRef}
+            style={{ x }}
+            className="flex gap-8 sm:gap-10 px-6 sm:px-14 w-max items-stretch"
+          >
             {projects.map((project, index) => (
               <div
                 key={project.title}
                 className={cn(
-                  "w-[20rem] sm:w-[24rem] md:w-[26rem] flex-shrink-0 flex flex-col py-8 relative group/feature border border-neutral-800/90 rounded-2xl bg-neutral-950/80 backdrop-blur-md overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700"
+                  "w-[24rem] sm:w-[32rem] md:w-[38rem] h-[28rem] sm:h-[32rem] md:h-[34rem] flex-shrink-0 flex flex-col justify-between p-8 sm:p-10 relative group/feature border border-neutral-800/90 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-neutral-900/80 to-neutral-950 overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700 hover:shadow-[0_25px_70px_rgba(0,0,0,0.95)]"
                 )}
               >
-                {/* Ambient Top/Bottom Gradient Illumination */}
-                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-300 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-800/50 via-transparent to-neutral-900/60 pointer-events-none" />
+                {/* SVG Grid Pattern Boxes Background */}
+                <Grid size={24} />
 
-                {/* Top Badge & Icon */}
-                <div className="mb-4 relative z-10 px-8 flex items-center justify-between text-neutral-400">
-                  <div className="p-2.5 rounded-xl bg-neutral-900/80 border border-neutral-800">
+                {/* Ambient Radial Hover Illumination */}
+                <div className="opacity-0 group-hover/feature:opacity-100 transition-opacity duration-500 absolute inset-0 bg-radial from-neutral-800/40 via-transparent to-transparent pointer-events-none" />
+
+                {/* Top Row: Icon + Number Badge */}
+                <div className="flex items-center justify-between relative z-20 mb-6">
+                  <div className="p-4 rounded-2xl bg-neutral-950/90 border border-neutral-800/90 text-neutral-300 group-hover/feature:text-white group-hover/feature:border-neutral-700 transition-colors shadow-lg">
                     {project.icon}
                   </div>
-                  <span className="font-mono text-[11px] text-neutral-500">
-                    0{index + 1}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[11px] px-3 py-1 rounded-full bg-neutral-950/80 border border-neutral-800/80 text-neutral-400">
+                      0{index + 1}
+                    </span>
+                    <span className="font-mono text-[11px] px-3 py-1 rounded-full bg-neutral-900/60 border border-neutral-800/60 text-neutral-500">
+                      2026
+                    </span>
+                  </div>
                 </div>
 
-                {/* Title with Expanding Monochrome Left Indicator Bar */}
-                <div className="text-xl font-bold mb-2 relative z-10 px-8">
-                  <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-700 group-hover/feature:bg-neutral-300 transition-all duration-200 origin-center" />
-                  <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-neutral-100">
-                    {project.title}
-                  </span>
+                {/* Content Area */}
+                <div className="relative z-20 space-y-4 flex-1">
+                  <div className="relative">
+                    <div className="absolute -left-8 sm:-left-10 inset-y-0 h-7 group-hover/feature:h-9 w-1 rounded-tr-full rounded-br-full bg-neutral-700 group-hover/feature:bg-neutral-300 transition-all duration-200 origin-center" />
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight group-hover/feature:translate-x-1 transition-transform duration-200">
+                      {project.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-sm sm:text-base text-neutral-300 font-normal leading-relaxed">
+                    {project.description}
+                  </p>
+
+                  <div className="pt-2 flex flex-wrap gap-2">
+                    {project.tech.split("•").map((item) => (
+                      <span
+                        key={item}
+                        className="inline-block px-3 py-1 rounded-md text-xs font-mono bg-neutral-950/80 border border-neutral-800 text-neutral-400"
+                      >
+                        {item.trim()}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-neutral-400 relative z-10 px-8 leading-relaxed flex-1">
-                  {project.description}
-                </p>
-
-                {/* Tech Stack */}
-                <div className="mt-4 pt-3 relative z-10 px-8">
-                  <span className="inline-block font-mono text-[11px] text-neutral-500 truncate max-w-full">
-                    {project.tech}
+                {/* Footer: Tech Stack & Live Action Buttons */}
+                <div className="relative z-20 mt-8 pt-6 border-t border-neutral-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <span className="font-mono text-xs text-neutral-500">
+                    Production Application
                   </span>
-                </div>
 
-                {/* Action Links */}
-                <div className="mt-4 pt-4 border-t border-neutral-800/80 relative z-10 px-8 flex items-center justify-between text-xs font-mono">
-                  {project.liveUrl ? (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 font-semibold text-neutral-200 hover:text-white transition-colors group/link"
-                    >
-                      <span>Visit Live</span>
-                      <IconArrowUpRight className="w-3.5 h-3.5 text-neutral-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                    </a>
-                  ) : (
-                    <span className="text-neutral-500">Internal</span>
-                  )}
-
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-neutral-400 hover:text-white transition-colors"
-                    >
-                      <IconGithub className="w-3.5 h-3.5" />
-                      <span>Code</span>
-                    </a>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-neutral-200 transition-colors shadow-md active:scale-95 group/link cursor-pointer"
+                      >
+                        <span>Visit Live</span>
+                        <IconArrowUpRight className="w-4 h-4 text-black group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-colors text-xs sm:text-sm font-medium active:scale-95 cursor-pointer"
+                      >
+                        <IconGithub className="w-4 h-4" />
+                        <span>Code</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </motion.div>
         </div>
 
-        {/* Bottom Scroll Navigation Hint */}
+        {/* Bottom Navigation Hint */}
         <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex items-center justify-between text-xs font-mono text-neutral-500 z-20">
           <span>Scroll to explore projects</span>
-          <span>Shift / Trackpad Scroll enabled</span>
+          <span>Horizontal Glide Active</span>
         </div>
 
       </div>

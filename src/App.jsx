@@ -8,6 +8,8 @@ import { ScrollMarquee } from "@/components/ui/velocity-marquee";
 import { HorizontalProjects } from "@/components/ui/horizontal-projects";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { LoaderFour } from "@/components/ui/loader";
+import { AceternityFooter } from "@/components/ui/aceternity-footer";
+import { DraggableLifeBoard } from "@/components/DraggableLifeBoard";
 import { cn } from "@/lib/utils";
 import heroImg from "@/assets/hero.png";
 
@@ -190,12 +192,12 @@ const fadeIn = {
   }),
 };
 
-// Real Projects Database
+// 4 Core Important Projects Database
 const projects = [
   {
     title: "SkyMart",
     description:
-      "Modern e-commerce platform with product catalog, cart persistence, and checkout flows.",
+      "Modern full-stack e-commerce platform with live product catalog, cart state persistence, and checkout flows.",
     year: "2026",
     tech: "React • Node.js • Express • MongoDB",
     icon: <IconShoppingBag />,
@@ -205,7 +207,7 @@ const projects = [
   {
     title: "TeamSync",
     description:
-      "Real-time team workspace platform for task coordination and project management.",
+      "Real-time team workspace and project management platform built for collaborative task coordination.",
     year: "2026",
     tech: "React • MERN Stack • WebSockets",
     icon: <IconUsers />,
@@ -215,7 +217,7 @@ const projects = [
   {
     title: "Inkwell",
     description:
-      "Content publishing and writing platform designed for clean, focused editing and reading.",
+      "Modern publishing and rich-text editing platform engineered for focused writing and responsive reading.",
     year: "2026",
     tech: "Next.js • Tailwind CSS • Rich Text",
     icon: <IconBookOpen />,
@@ -223,54 +225,14 @@ const projects = [
     githubUrl: "https://github.com/Vishnu-R-8848/inkwell-project",
   },
   {
-    title: "Session Task",
+    title: "Scroll-Trigger Kinetic Lab",
     description:
-      "Productivity application with local storage persistence and session task tracking.",
-    year: "2026",
-    tech: "React • Tailwind CSS • LocalStorage",
-    icon: <IconCheckSquare />,
-    liveUrl: "https://session-task-nine.vercel.app/",
-    githubUrl: "https://github.com/Vishnu-R-8848/session-task",
-  },
-  {
-    title: "Scroll-Trigger Lab",
-    description:
-      "Interactive web animations and fluid scroll effects built with GSAP ScrollTrigger.",
+      "Interactive physics animations and fluid scroll-linked kinetic interface effects powered by GSAP.",
     year: "2026",
     tech: "GSAP • ScrollTrigger • JavaScript",
     icon: <IconSparkles />,
     liveUrl: "https://vishnu-r-8848.github.io/Scroll-Trigger/",
     githubUrl: "https://github.com/Vishnu-R-8848/Scroll-Trigger",
-  },
-  {
-    title: "React Hook Form Suite",
-    description:
-      "Dynamic form validation and schema-driven input components using Zod.",
-    year: "2026",
-    tech: "React • Hook Form • Zod",
-    icon: <IconForm />,
-    liveUrl: "https://react-hook-form-project-sepia.vercel.app/",
-    githubUrl: "https://github.com/Vishnu-R-8848/React-hook-form-project",
-  },
-  {
-    title: "Responsive Imagery Lab",
-    description:
-      "Responsive image layout engine with adaptive aspect ratios and lazy optimization.",
-    year: "2026",
-    tech: "CSS Grid • Responsive UI • Vite",
-    icon: <IconImage />,
-    liveUrl: "https://responsive-img-2-f12y.vercel.app/",
-    githubUrl: "https://github.com/Vishnu-R-8848/responsive-img-2",
-  },
-  {
-    title: "Job Assistant",
-    description:
-      "Application tracking system built with Node.js and MongoDB to manage job workflows.",
-    year: "2026",
-    tech: "Node.js • MongoDB • REST APIs",
-    icon: <IconBot />,
-    liveUrl: "https://github.com/Vishnu-R-8848",
-    githubUrl: "https://github.com/Vishnu-R-8848",
   },
 ];
 
@@ -465,56 +427,14 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* 3. PINNED HORIZONTAL PROJECTS SHOWCASE */}
+      {/* 3. "WHEN I'M NOT CODING" DRAGGABLE LIFE & SOCIALS CANVAS */}
+      <DraggableLifeBoard />
+
+      {/* 4. PINNED HORIZONTAL PROJECTS SHOWCASE (GRID PATTERN CARDS) */}
       <HorizontalProjects projects={projects} />
 
-      {/* 4. CONNECT */}
-      <section className="max-w-4xl w-full mx-auto px-6 py-12 space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
-          Contact
-        </h2>
-        <div className="flex flex-wrap gap-5 text-sm font-medium">
-          <a
-            href={`mailto:${email}`}
-            className="text-neutral-300 hover:text-white transition-colors"
-          >
-            Email
-          </a>
-          <span className="text-neutral-700">•</span>
-          <a
-            href="https://github.com/Vishnu-R-8848"
-            target="_blank"
-            rel="noreferrer"
-            className="text-neutral-300 hover:text-white transition-colors"
-          >
-            GitHub
-          </a>
-          <span className="text-neutral-700">•</span>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-neutral-300 hover:text-white transition-colors"
-          >
-            LinkedIn
-          </a>
-          <span className="text-neutral-700">•</span>
-          <a
-            href="https://x.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-neutral-300 hover:text-white transition-colors"
-          >
-            Twitter / X
-          </a>
-        </div>
-      </section>
-
-      {/* 5. FOOTER */}
-      <footer className="max-w-4xl w-full mx-auto px-6 py-8 border-t border-neutral-900 flex items-center justify-between text-xs text-neutral-500 select-none">
-        <p>© 2026 Vishnu Naik Chouhan</p>
-        <p className="font-mono text-[11px]">All rights reserved.</p>
-      </footer>
+      {/* 5. ACETERNITY SIGNATURE FOOTER WITH OVERSIZED WATERMARK */}
+      <AceternityFooter />
     </div>
   );
 }
