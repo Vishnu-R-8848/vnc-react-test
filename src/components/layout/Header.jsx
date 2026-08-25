@@ -1,176 +1,199 @@
-import { useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import gsap from "gsap";
-import { Menu, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import heroImg from "../../assets/hero.png";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
-
-  const ulRef = useRef(null);
-  const hoverPillRef = useRef(null);
-  const activePillRef = useRef(null);
-  const linksRef = useRef([]);
+  const [activeSection, setActiveSection] = useState("home");
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [imgError, setImgError] = useState(false);
 
   const navLinks = [
-    { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
-    { label: "Projects", path: "/projects" },
-    { label: "Architecture", path: "/architecture" },
-    { label: "Experience", path: "/experience" },
+    { label: "Home", href: "#home", id: "home" },
+    { label: "About", href: "#about", id: "about" },
+    { label: "Capabilities", href: "#capabilities", id: "capabilities" },
+    { label: "Contact", href: "#contact", id: "contact" },
   ];
 
+  // Scroll listener for active section tracking
   useEffect(() => {
-    const ul = ulRef.current;
-    const hoverPill = hoverPillRef.current;
-    const activePill = activePillRef.current;
-    const currentIdx = navLinks.findIndex((l) => l.path === location.pathname);
-    const activeEl = linksRef.current[currentIdx !== -1 ? currentIdx : 0];
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 180;
+      const sections = navLinks.map((item) => document.getElementById(item.id));
 
-    if (!ul || !activeEl || !hoverPill || !activePill) return;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(navLinks[i].id);
+          break;
+        }
+      }
+    };
 
-    gsap.set(hoverPill, {
-      left: 0,
-      width: ul.offsetWidth,
-      height: ul.offsetHeight,
-      opacity: 1,
-    });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    gsap.to(activePill, {
-      left: activeEl.offsetLeft,
-      width: activeEl.offsetWidth,
-      height: ul.offsetHeight,
-      top: 0,
-      opacity: 1,
-      duration: 0.4,
-      ease: "power3.out",
-    });
-  }, [location.pathname]);
-
-  const handleMouseEnter = (idx) => {
-    const link = linksRef.current[idx];
-    if (!link || !hoverPillRef.current) return;
-
-    gsap.to(hoverPillRef.current, {
-      left: link.offsetLeft,
-      width: link.offsetWidth,
-      height: link.offsetHeight,
-      duration: 0.35,
-      ease: "power3.out",
-    });
-  };
-
-  const handleMouseLeave = () => {
-    if (!ulRef.current || !hoverPillRef.current) return;
-    gsap.to(hoverPillRef.current, {
-      left: 0,
-      width: ulRef.current.offsetWidth,
-      duration: 0.45,
-      ease: "power4.out",
-    });
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    const targetId = href.replace("#", "");
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full max-w-5xl mx-auto px-4 sm:px-6">
-      <div className="w-full flex justify-between items-center bg-white/90 backdrop-blur-md px-4 sm:px-6 py-3 border-b border-neutral-200/60">
-        <NavLink to="/" className="flex items-center gap-2.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-200 animate-pulse"></span>
-          <span className="font-bold text-sm tracking-tight text-neutral-900 font-mono lowercase">
-            portfolio
-          </span>
-        </NavLink>
-
-        {/* Desktop GSAP Nav */}
-        <nav
-          className="relative hidden sm:flex items-center p-[2px]"
-          onMouseLeave={handleMouseLeave}
+    <header className="sticky top-4 sm:top-6 z-50 w-full max-w-5xl mx-auto px-4 sm:px-6 pointer-events-none">
+      <div className="w-full flex items-center justify-between bg-white/80 backdrop-blur-md border border-neutral-200/80 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pointer-events-auto transition-all">
+        {/* Brand Avatar & Name */}
+        <a
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
+          className="flex items-center gap-2.5 group"
         >
-          <ul
-            ref={ulRef}
-            className="relative z-10 flex items-center text-xs font-medium text-neutral-500"
-          >
-            {navLinks.map((item, idx) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  ref={(el) => (linksRef.current[idx] = el)}
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  className={({ isActive }) =>
-                    `inline-block px-4 py-2 transition-colors z-10 ${
-                      isActive
-                        ? "text-white font-semibold"
-                        : "text-neutral-500 hover:text-neutral-900"
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
+          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-neutral-200/90 bg-neutral-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            {!imgError ? (
+              <img
+                src={heroImg}
+                alt="Vishnu Naik Chouhan"
+                className="w-full h-full object-cover"
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <span className="w-full h-full flex items-center justify-center font-mono font-bold text-xs text-neutral-800">
+                VN
+              </span>
+            )}
+          </div>
 
-            {/* Active Pill (Neutral-400) */}
-            <div
-              ref={activePillRef}
-              className="active-pill absolute top-0 left-0 bg-neutral-400 rounded-full -z-10 pointer-events-none opacity-0"
-            />
+          <div className="flex flex-col">
+            <span className="font-bold text-xs sm:text-sm tracking-tight text-neutral-900 leading-none font-sans">
+              Vishnu Naik Chouhan
+            </span>
+            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Full Stack
+            </span>
+          </div>
+        </a>
 
-            {/* Hover Resting Bubble (Blue-100/80) */}
-            <div
-              ref={hoverPillRef}
-              className="hover-pill absolute top-0 left-0 bg-blue-100/80 border border-blue-200 rounded-full -z-20 pointer-events-none"
-            />
-          </ul>
+        {/* Desktop Anchor Navigation */}
+        <nav
+          className="relative hidden md:flex items-center bg-neutral-100/70 p-1 rounded-full border border-neutral-200/50"
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
+          {navLinks.map((item, idx) => {
+            const isActive = activeSection === item.id;
+            return (
+              <a
+                key={item.id}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                onMouseEnter={() => setHoveredIndex(idx)}
+                className={`relative px-4 py-1.5 text-xs font-mono uppercase tracking-wider font-semibold transition-colors duration-200 z-10 select-none ${
+                  isActive
+                    ? "text-neutral-900"
+                    : "text-neutral-500 hover:text-neutral-800"
+                }`}
+              >
+                {/* Active indicator pill */}
+                {isActive && (
+                  <motion.div
+                    layoutId="active-nav-pill"
+                    className="absolute inset-0 bg-white rounded-full shadow-xs border border-neutral-200/70 -z-10"
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30,
+                    }}
+                  />
+                )}
+
+                {/* Hover resting indicator */}
+                {hoveredIndex === idx && !isActive && (
+                  <motion.div
+                    layoutId="hover-nav-pill"
+                    className="absolute inset-0 bg-neutral-200/60 rounded-full -z-10"
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30,
+                    }}
+                  />
+                )}
+
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* CTA & Mobile Toggle */}
+        {/* Action Button & Mobile Toggle */}
         <div className="flex items-center gap-2">
           <a
-            href="mailto:contact@example.com"
-            className="hidden sm:inline-flex px-5 py-2 rounded-full bg-[#111827] text-white text-xs font-semibold hover:bg-black transition-all"
+            href="#contact"
+            onClick={(e) => handleNavClick(e, "#contact")}
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-neutral-900 text-white text-xs font-mono font-medium uppercase tracking-wider hover:bg-black transition-all shadow-xs"
           >
-            Hire Me
+            <span>Let's Talk</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
           </a>
+
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="sm:hidden p-2 rounded-full text-neutral-700 hover:bg-neutral-100 transition-colors"
+            aria-label="Toggle Navigation Menu"
+            className="md:hidden p-2 rounded-full text-neutral-700 hover:bg-neutral-100 transition-colors"
           >
-            {mobileOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="sm:hidden mt-2 w-full bg-white border border-neutral-200/80 rounded-2xl p-4 flex flex-col gap-2 font-mono text-xs uppercase tracking-wider">
-          {navLinks.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `px-3 py-2 rounded-lg transition-colors ${
-                  isActive
-                    ? "bg-blue-100 text-neutral-900 font-bold"
-                    : "text-neutral-700 hover:bg-neutral-50"
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
-          <a
-            href="mailto:contact@example.com"
-            onClick={() => setMobileOpen(false)}
-            className="px-3 py-2.5 rounded-lg bg-[#111827] text-white text-center font-bold"
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden mt-2 w-full bg-white/95 backdrop-blur-xl border border-neutral-200/80 rounded-2xl p-4 flex flex-col gap-1.5 font-mono text-xs uppercase tracking-wider shadow-xl pointer-events-auto"
           >
-            Hire Me
-          </a>
-        </div>
-      )}
+            {navLinks.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`px-3 py-2.5 rounded-xl transition-all flex items-center justify-between ${
+                    isActive
+                      ? "bg-neutral-900 text-white font-bold"
+                      : "text-neutral-700 hover:bg-neutral-100"
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  )}
+                </a>
+              );
+            })}
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="mt-2 px-3 py-2.5 rounded-xl bg-blue-600 text-white text-center font-bold flex items-center justify-center gap-1.5"
+            >
+              <span>Get in Touch</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

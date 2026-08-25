@@ -1,0 +1,167 @@
+portfolio_config:
+  domain: "portfolio.vishnu.dev"
+
+  strategy:
+    responsiveness: "mobile-first"
+    offline_capability: true
+    overall_vibe: "Minimal, Apple-inspired, window-based OS style"
+
+  status:
+    implementation: "frozen"
+    new_ideas: "append_to_ideas_only"
+    rule: "Do not change implementation scope until the interview phase is complete"
+
+
+contact_info:
+  socials:
+    instagram: "_link"
+    xTwitter: "_link"
+    facebook: "_link"
+
+  dev_profiles:
+    discord: "_link"
+    github: "_link"
+    linkedIn: "_link"
+    leetCode: "_link"
+
+  email:
+    personal: "_mail"
+    work: "_mail"
+
+  phone:
+    personal: "_private"
+    new_number: "_private"
+
+
+architecture:
+  routes:
+    - home
+    - about
+    - projects
+    - blog
+    - contact
+
+  layout_rules:
+    max_container_width: "600px"
+    navigation:
+      style: "window-style"
+      hire_me_button: true
+      connect_button_near_logo: true
+
+    footer:
+      guitar_bar_lines: true
+      colored_symbols: true
+      copyright: "© 2026"
+
+  content:
+    resume_link: "_link"
+
+    media:
+      image_limit: "1-5"
+      image_types:
+        - hero
+        - about
+        - footer
+        - contact
+        - other
+      video_reveal_supported: true
+
+
+design_system:
+  typography:
+    fonts:
+      - "Apple system fonts"
+      - "Aliens"
+
+    styling:
+      - "Apple-inspired education colors"
+      - "Mixed fonts and colors in intro text"
+      - "Full stroke text"
+      - "Off-stroke text variations"
+
+    copy:
+      intro: "hi! im Vishnu"
+      developer_statement: "who the f*** dev.vishnu"
+      social_section: "what's up on social"
+      manifesto: "manifested"
+      about_label: "01 ABOUT"
+      quote_format:
+        double_quotes: true
+        single_quotes: true
+
+
+  visual_theme:
+    backgrounds:
+      - "gradients"
+      - "background patterns"
+
+    custom_cursor:
+      - "dragon"
+      - "aliens"
+      - "rainbow"
+      - "ball"
+
+
+ui_components:
+  cards:
+    style: "Apple-style borders with '+' typed borders"
+    interaction:
+      hover: "horizontal scroll"
+
+  accordion:
+    style: "Apple-inspired"
+    layout: "flex-1"
+
+  breadcrumbs:
+    style: "Apple-inspired"
+
+  widgets:
+    - "idCard"
+
+  sidebar:
+    style: "window-style"
+    behavior: "window/navbar rather than traditional sidebar"
+
+
+animations_and_interactions:
+  page_transitions:
+    style: "window-based presentation"
+
+    behavior:
+      page_count: "3-5"
+      menu_click: "reveal pages with physics-based sliding"
+      page_role_reveal: true
+      infinite_presentation_scroll: true
+
+  micro_interactions:
+    - "image hover color reveal"
+    - "link text hover effects"
+    - "3-line hamburger animation"
+    - "SVG X close animation"
+    - "staggered sidebar content reveal"
+
+  advanced_effects:
+    - "3D text animation"
+    - "typing effects"
+    - "Canvas background animation"
+    - "SVG background animation"
+    - "WebGL wavy button"
+    - "interactive click sound effects"
+
+
+references:
+  inspiration:
+    - "Apple"
+    - "ETREA"
+    - "Lando Norris website"
+
+  implementation_preference:
+    animation_library: "Framer Motion"
+    principle: "Motion should support hierarchy and interaction, not decoration"
+
+
+ideas:
+  # Add new ideas here only.
+  # Do not modify the sections above when a new idea appears.
+
+  pending: []
