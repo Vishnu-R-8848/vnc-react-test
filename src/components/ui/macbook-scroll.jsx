@@ -38,11 +38,12 @@ export const MacbookScroll = ({
       const width = window.innerWidth;
       setIsMobile(width < 768);
 
-      const targetBaseWidth = 740;
-      if (width < targetBaseWidth + 24) {
-        const nextScale = (width - 24) / targetBaseWidth;
-        setDynamicScale(Math.max(0.4, Math.min(1.05, nextScale)));
-      } else if (width >= 1280) {
+      const targetBaseWidth = 736;
+      const padding = width < 480 ? 16 : width < 768 ? 28 : 48;
+      const availableWidth = width - padding;
+      if (availableWidth < targetBaseWidth) {
+        setDynamicScale(Math.max(0.38, availableWidth / targetBaseWidth));
+      } else if (width >= 1440) {
         setDynamicScale(1.08);
       } else {
         setDynamicScale(1);
@@ -64,26 +65,28 @@ export const MacbookScroll = ({
     [0, 0.3],
     [0.7, isMobile ? 1 : 1.25],
   );
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 950 : 1500]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
-  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
+  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 80]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <div
       ref={ref}
-      className="flex min-h-[140vh] sm:min-h-[170vh] md:min-h-[190vh] flex-col items-center justify-start py-0 [perspective:1000px] w-full max-w-full overflow-hidden select-none"
+      className={cn(
+        "flex flex-col items-center justify-start py-0 [perspective:1000px] w-full max-w-full overflow-hidden select-none",
+        isMobile ? "min-h-[120vh] sm:min-h-[145vh]" : "min-h-[185vh]"
+      )}
     >
       <motion.div
         style={{
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        // this is the text before the macbook appears
-        className="mb-8 sm:mb-12 text-center px-4 hidden"
+        className="mb-4 sm:mb-8 md:mb-12 text-center px-4 w-full max-w-full"
       >
         {title || (
-          <h2 className="text-white text-3xl sm:text-5xl font-bold tracking-tight">
+          <h2 className="text-white text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight">
             Vishnu Naik Chouhan
           </h2>
         )}
@@ -178,7 +181,7 @@ export const Lid = ({
           transformStyle: "preserve-3d",
           transformOrigin: "bottom",
         }}
-        className="h-[28rem] w-[46rem] hidden- bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden pointer-events-auto z-20"
+        className="h-[28rem] w-[46rem] bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden pointer-events-auto z-20"
       >
         {/* Top Camera Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-3.5 bg-[#010101] rounded-b-md z-30 flex items-center justify-center">

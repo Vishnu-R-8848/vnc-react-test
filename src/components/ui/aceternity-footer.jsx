@@ -32,7 +32,11 @@ export function AceternityFooter() {
     {
       title: "Socials",
       links: [
-        { label: "GitHub", href: "https://github.com/Vishnu-R-8848", external: true },
+        {
+          label: "GitHub",
+          href: "https://github.com/Vishnu-R-8848",
+          external: true,
+        },
         { label: "LinkedIn", href: "https://linkedin.com", external: true },
         { label: "Twitter / X", href: "https://x.com", external: true },
         { label: "Instagram", href: "https://instagram.com", external: true },
@@ -51,7 +55,11 @@ export function AceternityFooter() {
       title: "Direct",
       links: [
         { label: "Email Me", href: "mailto:vishnu6364748848@gmail.com" },
-        { label: "Source Code", href: "https://github.com/Vishnu-R-8848", external: true },
+        {
+          label: "Source Code",
+          href: "https://github.com/Vishnu-R-8848",
+          external: true,
+        },
         { label: "Resume", href: "#" },
       ],
     },
@@ -68,11 +76,12 @@ export function AceternityFooter() {
               V
             </div>
             <span className="font-semibold tracking-tight text-base text-neutral-100">
-              Vishnu Naik
+              Vishnu Naik Chouhan
             </span>
           </div>
           <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
-            Full-stack engineer building fast, responsive web applications, modern platforms, and clean user interfaces.
+            Full-stack engineer building fast, responsive web applications,
+            modern platforms, and clean user interfaces.
           </p>
           <p className="text-xs text-neutral-500 font-mono pt-2">
             © {currentYear} Vishnu Naik Chouhan.
