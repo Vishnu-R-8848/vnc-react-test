@@ -12,6 +12,7 @@ import { AceternityFooter } from "@/components/ui/aceternity-footer";
 import BentoServices from "@/components/BentoServices";
 import DraggableLifeBoard from "@/components/DraggableLifeBoard";
 import InteractiveContact from "@/components/InteractiveContact";
+import FluidLiquidCursor from "@/components/ui/fluid-cursor";
 import heroImg from "@/assets/hero.png";
 
 // Self-contained reliable SVG icons
@@ -205,6 +206,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full bg-[#050507] text-white antialiased selection:bg-white selection:text-black font-sans relative">
+      {/* FLUID ORGANIC LIQUID CURSOR */}
+      <FluidLiquidCursor />
+
       {/* INITIAL SYSTEM LOADING SPLASH */}
       <AnimatePresence>
         {loading && (
