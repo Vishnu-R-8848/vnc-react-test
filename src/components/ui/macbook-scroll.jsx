@@ -57,12 +57,12 @@ export const MacbookScroll = ({
   const scaleX = useTransform(
     scrollYProgress,
     [0, 0.3],
-    [1.1, isMobile ? 1 : 1.25]
+    [1.1, isMobile ? 1 : 1.25],
   );
   const scaleY = useTransform(
     scrollYProgress,
     [0, 0.3],
-    [0.7, isMobile ? 1 : 1.25]
+    [0.7, isMobile ? 1 : 1.25],
   );
   const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
@@ -79,7 +79,8 @@ export const MacbookScroll = ({
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        className="mb-8 sm:mb-12 text-center px-4"
+        // this is the text before the macbook appears
+        className="mb-8 sm:mb-12 text-center px-4 hidden"
       >
         {title || (
           <h2 className="text-white text-3xl sm:text-5xl font-bold tracking-tight">
@@ -94,7 +95,7 @@ export const MacbookScroll = ({
           transform: `scale(${dynamicScale})`,
           transformOrigin: "top center",
         }}
-        className="w-[46rem]  flex flex-col items-center transition-transform duration-150"
+        className="w-[46rem] flex flex-col items-center transition-transform duration-150"
       >
         {/* Lid */}
         <Lid
@@ -108,13 +109,13 @@ export const MacbookScroll = ({
         </Lid>
 
         {/* Base */}
-        <div className="h-[22rem] w-[46rem] bg-[#1a1a1c] border border-neutral-800 rounded-2xl overflow-hidden relative -z-10 -mt-2 shadow-2xl">
+        <div className="h-[22rem] w-[46rem]  bg-[#1a1a1c] border border-neutral-800 rounded-2xl overflow-hidden relative -z-10 -mt-2 shadow-2xl">
           {/* Above keyboard bar */}
           <div className="h-10 w-full relative">
             <div className="absolute inset-x-0 mx-auto w-[80%] h-4 bg-[#050505] rounded-b-md" />
           </div>
           <div className="flex relative">
-            <div className="mx-auto w-[10%] overflow-hidden h-full">
+            <div className="mx-auto w-[10%] overflow-hidden h-full ">
               <SpeakerGrid />
             </div>
             <div className="mx-auto w-[80%] h-full">
@@ -129,16 +130,25 @@ export const MacbookScroll = ({
           {showGradient && (
             <div className="h-40 w-full absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#050507] to-transparent z-50 pointer-events-none" />
           )}
-          {badge && <div className="absolute bottom-4 left-4 z-50">{badge}</div>}
+          {badge && (
+            <div className="absolute bottom-4 left-4 z-50">{badge}</div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export const Lid = ({ scaleX, scaleY, rotate, translate, src = "/hero.png", children }) => {
+export const Lid = ({
+  scaleX,
+  scaleY,
+  rotate,
+  translate,
+  src = "/hero.png",
+  children,
+}) => {
   return (
-    <div className="relative [perspective:1000px] w-[46rem]">
+    <div className="relative [perspective:1000px] w-[46rem] ">
       {/* Base Perspective Bezel Layer */}
       <div
         style={{
@@ -158,6 +168,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src = "/hero.png", chil
       </div>
 
       {/* Opening Active Lid */}
+      {/* this is the card */}
       <motion.div
         style={{
           scaleX: scaleX,
@@ -167,7 +178,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src = "/hero.png", chil
           transformStyle: "preserve-3d",
           transformOrigin: "bottom",
         }}
-        className="h-[28rem] w-[46rem] bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden"
+        className="h-[28rem] w-[46rem] hidden- bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden pointer-events-auto z-20"
       >
         {/* Top Camera Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-3.5 bg-[#010101] rounded-b-md z-30 flex items-center justify-center">
@@ -175,9 +186,11 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src = "/hero.png", chil
         </div>
 
         {/* Screen Display Container */}
-        <div className="relative bg-[#09090b] rounded-lg h-full w-full overflow-hidden border border-neutral-800/80 flex flex-col">
+        <div className="relative bg-[#09090b] rounded-lg h-full w-full overflow-hidden border border-neutral-800/80 flex flex-col pointer-events-auto">
           {children ? (
-            <div className="h-full w-full overflow-hidden flex flex-col">{children}</div>
+            <div className="h-full w-full overflow-hidden flex flex-col pointer-events-auto">
+              {children}
+            </div>
           ) : (
             <img
               src={src}
@@ -208,18 +221,42 @@ export const Keypad = () => {
       {/* Row 1: Function Keys */}
       <div className="flex gap-[3px] mb-[3px] w-full justify-between">
         <Kbd className="w-[2.4rem] h-[0.85rem] text-[7px]">esc</Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconBrightnessDown className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconBrightnessUp className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconWorld className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconSearch className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconMicrophone className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconMoon className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconPlayerTrackPrev className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconPlayerSkipForward className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconPlayerTrackNext className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconVolume3 className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconVolume2 className="h-2 w-2" /></Kbd>
-        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]"><IconVolume className="h-2 w-2" /></Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconBrightnessDown className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconBrightnessUp className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconWorld className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconSearch className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconMicrophone className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconMoon className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconPlayerTrackPrev className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconPlayerSkipForward className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconPlayerTrackNext className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconVolume3 className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconVolume2 className="h-2 w-2" />
+        </Kbd>
+        <Kbd className="w-[2.1rem] h-[0.85rem] text-[7px]">
+          <IconVolume className="h-2 w-2" />
+        </Kbd>
         <Kbd className="w-[2.4rem] h-[0.85rem] text-[7px]">⏻</Kbd>
       </div>
 
@@ -319,7 +356,7 @@ export const Kbd = ({ className, children }) => {
     <div
       className={cn(
         "bg-[#0a0a0a] text-neutral-400 flex items-center justify-center rounded-[4px] text-[10px] font-sans border border-neutral-800 shadow-[0px_0.5px_1px_0px_rgba(255,255,255,0.05)_inset]",
-        className
+        className,
       )}
     >
       {children}

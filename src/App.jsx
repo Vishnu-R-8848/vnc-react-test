@@ -10,6 +10,8 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { LoaderFour } from "@/components/ui/loader";
 import { AceternityFooter } from "@/components/ui/aceternity-footer";
 import BentoServices from "@/components/BentoServices";
+import DraggableLifeBoard from "@/components/DraggableLifeBoard";
+import InteractiveContact from "@/components/InteractiveContact";
 import heroImg from "@/assets/hero.png";
 
 // Self-contained reliable SVG icons
@@ -255,7 +257,7 @@ export default function App() {
           showGradient={false}
         >
           {/* INSIDE MACBOOK DISPLAY SCREEN (The card that animates down on scroll) */}
-          <div className="h-full w-full bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-8 select-none">
+          <div className="h-full w-full bg-[#09090b] text-white flex flex-col justify-between p-5 sm:p-7 pointer-events-auto relative z-30">
             {/* macOS Window Traffic Lights (Apple style) */}
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E] shadow-xs" />
@@ -266,14 +268,14 @@ export default function App() {
             {/* Profile Content inside MacBook - Centered */}
             <div className="space-y-3 my-auto max-w-lg mx-auto flex flex-col items-center justify-center text-center">
               <div className="flex flex-col items-center">
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                   <SquigglyText stepDuration={75} scale={[2, 5]}>
                     Vishnu Naik Chouhan
                   </SquigglyText>
                 </h1>
 
                 {/* Clean Aligned Sparkle Beam Subtitle */}
-                <div className="w-[18rem] sm:w-[22rem] h-12 relative mt-0.5 flex flex-col items-center justify-start">
+                <div className="w-[18rem] sm:w-[22rem] h-10 relative mt-0.5 flex flex-col items-center justify-start">
                   <p className="text-xs sm:text-sm text-neutral-200 font-medium relative z-20 text-center tracking-wide">
                     Full-Stack Engineer
                   </p>
@@ -306,22 +308,14 @@ export default function App() {
                 interfaces with React, Next.js, Node.js, and MongoDB.
               </p>
 
-              {/* Single Hero Call to Action */}
-              <div className="flex items-center justify-center pt-2">
-                <HoverBorderGradient
-                  as="a"
-                  href="mailto:vishnu6364748848@gmail.com"
-                  containerClassName="rounded-full"
-                  className="bg-black text-white flex items-center gap-2 text-xs sm:text-sm font-semibold px-5 py-2.5 group/cta cursor-pointer shadow-lg"
-                >
-                  <span>Let&apos;s Connect</span>
-                  <IconArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform" />
-                </HoverBorderGradient>
+              {/* Interactive Address Bar & Social Channel Selector */}
+              <div className="w-full pt-1">
+                <InteractiveContact compact={true} />
               </div>
             </div>
 
-            {/* Bottom spacer to keep centered balance */}
-            <div className="h-4" />
+            {/* Bottom spacer */}
+            <div className="h-1" />
           </div>
         </MacbookScroll>
       </section>
@@ -355,6 +349,9 @@ export default function App() {
           </div>
         </motion.div>
       </section>
+
+      {/* DRAGGABLE CARDS / CURIOSITY BOARD */}
+      <DraggableLifeBoard />
 
       {/* 3. CAPABILITIES & SERVICES (BENTO GRID) */}
       <BentoServices />
