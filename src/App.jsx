@@ -10,7 +10,6 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { LoaderFour } from "@/components/ui/loader";
 import { AceternityFooter } from "@/components/ui/aceternity-footer";
 import BentoServices from "@/components/BentoServices";
-import { cn } from "@/lib/utils";
 import heroImg from "@/assets/hero.png";
 
 // Self-contained reliable SVG icons
@@ -98,22 +97,6 @@ const IconBookOpen = () => (
   </svg>
 );
 
-const IconCheckSquare = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="22"
-    height="22"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="9 11 12 14 22 4" />
-    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-  </svg>
-);
-
 const IconSparkles = () => (
   <svg
     viewBox="0 0 24 24"
@@ -126,56 +109,6 @@ const IconSparkles = () => (
     strokeLinejoin="round"
   >
     <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
-  </svg>
-);
-
-const IconForm = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="22"
-    height="22"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect width="18" height="18" x="3" y="3" rx="2" />
-    <path d="M7 8h10M7 12h10M7 16h6" />
-  </svg>
-);
-
-const IconImage = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="22"
-    height="22"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-    <circle cx="9" cy="9" r="2" />
-    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-  </svg>
-);
-
-const IconBot = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="22"
-    height="22"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 8V4H8" />
-    <rect width="16" height="12" x="4" y="8" rx="2" />
-    <path d="M2 14h2M20 14h2M15 13v2M9 13v2" />
   </svg>
 );
 
@@ -260,7 +193,6 @@ const techStackRow2 = [
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const email = "vishnu6364748848@gmail.com";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -322,56 +254,63 @@ export default function App() {
           src={heroImg}
           showGradient={false}
         >
-          {/* INSIDE MACBOOK DISPLAY SCREEN */}
-          <div className="h-full w-full bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-8 select-none overflow-y-auto">
-            {/* macOS Window Controls */}
-            <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                <span className="w-3 h-3 rounded-full bg-[#27c93f]" />
-              </div>
-              <span className="text-xs text-neutral-400 font-mono">
-                vishnu-portfolio
-              </span>
-              <div className="w-8" />
+          {/* INSIDE MACBOOK DISPLAY SCREEN (The card that animates down on scroll) */}
+          <div className="h-full w-full bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-8 select-none">
+            {/* macOS Window Traffic Lights (Apple style) */}
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E] shadow-xs" />
+              <span className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123] shadow-xs" />
+              <span className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29] shadow-xs" />
             </div>
 
-            {/* Profile Content inside MacBook */}
-            <div className="space-y-5 my-auto max-w-xl">
-              <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-neutral-700 bg-neutral-900 shadow-xl">
-                  <img
-                    src={heroImg}
-                    alt="Vishnu Naik Chouhan"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-                </div>
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                    <SquigglyText stepDuration={75} scale={[2, 5]}>
-                      Vishnu Naik Chouhan
-                    </SquigglyText>
-                  </h1>
-                  <p className="text-sm text-neutral-400 font-medium mt-0.5">
+            {/* Profile Content inside MacBook - Centered */}
+            <div className="space-y-3 my-auto max-w-lg mx-auto flex flex-col items-center justify-center text-center">
+              <div className="flex flex-col items-center">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                  <SquigglyText stepDuration={75} scale={[2, 5]}>
+                    Vishnu Naik Chouhan
+                  </SquigglyText>
+                </h1>
+
+                {/* Clean Aligned Sparkle Beam Subtitle */}
+                <div className="w-[18rem] sm:w-[22rem] h-12 relative mt-0.5 flex flex-col items-center justify-start">
+                  <p className="text-xs sm:text-sm text-neutral-200 font-medium relative z-20 text-center tracking-wide">
                     Full-Stack Engineer
                   </p>
+
+                  {/* Perfectly Centered Light Beams */}
+                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-neutral-400 to-transparent h-[2px] w-3/4 blur-xs" />
+                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-neutral-300 to-transparent h-px w-3/4" />
+                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-white to-transparent h-[2px] w-1/3 blur-xs" />
+                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-white to-transparent h-px w-1/3" />
+
+                  {/* Core Sparkles Component */}
+                  <div className="w-full h-8 absolute top-1 inset-x-0 pointer-events-none">
+                    <SparklesCore
+                      background="transparent"
+                      minSize={0.4}
+                      maxSize={1.2}
+                      particleDensity={85}
+                      className="w-full h-full"
+                      particleColor="#FFFFFF"
+                    />
+                  </div>
+
+                  {/* Radial gradient mask */}
+                  <div className="absolute inset-0 w-full h-full bg-[#09090b] [mask-image:radial-gradient(180px_35px_at_top,transparent_15%,white)] pointer-events-none" />
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-md font-normal">
                 I build fast, responsive web applications and modern user
                 interfaces with React, Next.js, Node.js, and MongoDB.
               </p>
 
               {/* Single Hero Call to Action */}
-              <div className="flex items-center pt-2">
+              <div className="flex items-center justify-center pt-2">
                 <HoverBorderGradient
                   as="a"
-                  href={`mailto:${email}`}
+                  href="mailto:vishnu6364748848@gmail.com"
                   containerClassName="rounded-full"
                   className="bg-black text-white flex items-center gap-2 text-xs sm:text-sm font-semibold px-5 py-2.5 group/cta cursor-pointer shadow-lg"
                 >
@@ -381,18 +320,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* Subtle bottom note */}
-            <div className="border-t border-neutral-800/80 pt-3 flex items-center justify-between text-xs text-neutral-500 font-mono">
-              <span>React • Next.js • Node.js • MongoDB</span>
-              <a
-                href="https://github.com/Vishnu-R-8848"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white transition-colors"
-              >
-                github.com/Vishnu-R-8848
-              </a>
-            </div>
+            {/* Bottom spacer to keep centered balance */}
+            <div className="h-4" />
           </div>
         </MacbookScroll>
       </section>

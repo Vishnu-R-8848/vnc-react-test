@@ -4,9 +4,6 @@ import { cn } from "@/lib/utils";
 import {
   IconBrightnessDown,
   IconBrightnessUp,
-  IconCaretRightFilled,
-  IconCaretUpFilled,
-  IconChevronUp,
   IconMicrophone,
   IconMoon,
   IconPlayerSkipForward,
@@ -139,7 +136,7 @@ export const MacbookScroll = ({
   );
 };
 
-export const Lid = ({ scaleX, scaleY, rotate, translate, src, children }) => {
+export const Lid = ({ scaleX, scaleY, rotate, translate, src = "/hero.png", children }) => {
   return (
     <div className="relative [perspective:1000px] w-[46rem]">
       {/* Base Perspective Bezel Layer */}
@@ -151,16 +148,12 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src, children }) => {
         }}
         className="h-[14rem] w-[46rem] bg-[#010101] border border-neutral-800 rounded-2xl p-2.5 relative shadow-2xl overflow-hidden"
       >
-        <div className="relative bg-[#09090b] rounded-lg h-full w-full overflow-hidden flex flex-col">
-          {children ? (
-            <div className="h-full w-full overflow-hidden opacity-90">{children}</div>
-          ) : (
-            <img
-              src={src}
-              alt="Macbook display"
-              className="object-cover object-top absolute inset-0 h-full w-full"
-            />
-          )}
+        <div className="relative bg-[#09090b] rounded-lg h-full w-full overflow-hidden">
+          <img
+            src={src}
+            alt="MacBook Wallpaper"
+            className="object-cover object-top absolute inset-0 h-full w-full opacity-60"
+          />
         </div>
       </div>
 
@@ -174,9 +167,9 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src, children }) => {
           transformStyle: "preserve-3d",
           transformOrigin: "bottom",
         }}
-        className="h-[28rem] w-[46rem] bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)]"
+        className="h-[28rem] w-[46rem] bg-[#010101] border border-neutral-700/80 rounded-2xl p-2.5 absolute inset-0 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden"
       >
-        {/* Top Notch & Camera */}
+        {/* Top Camera Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-3.5 bg-[#010101] rounded-b-md z-30 flex items-center justify-center">
           <div className="w-1.5 h-1.5 rounded-full bg-neutral-900 border border-neutral-700/60" />
         </div>
@@ -188,7 +181,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src, children }) => {
           ) : (
             <img
               src={src}
-              alt="Macbook display content"
+              alt="MacBook Display"
               className="object-cover object-top absolute inset-0 h-full w-full"
             />
           )}
