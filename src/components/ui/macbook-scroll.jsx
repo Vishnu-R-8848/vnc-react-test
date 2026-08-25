@@ -97,7 +97,7 @@ export const MacbookScroll = ({
           transform: `scale(${dynamicScale})`,
           transformOrigin: "top center",
         }}
-        className="w-[46rem] flex flex-col items-center transition-transform duration-150"
+        className="w-[46rem]  flex flex-col items-center transition-transform duration-150"
       >
         {/* Lid */}
         <Lid

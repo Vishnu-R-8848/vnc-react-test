@@ -9,7 +9,7 @@ import { HorizontalProjects } from "@/components/ui/horizontal-projects";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { LoaderFour } from "@/components/ui/loader";
 import { AceternityFooter } from "@/components/ui/aceternity-footer";
-import { DraggableLifeBoard } from "@/components/DraggableLifeBoard";
+import BentoServices from "@/components/BentoServices";
 import { cn } from "@/lib/utils";
 import heroImg from "@/assets/hero.png";
 
@@ -427,13 +427,13 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* 3. "WHEN I'M NOT CODING" DRAGGABLE LIFE & SOCIALS CANVAS */}
-      <DraggableLifeBoard />
+      {/* 3. CAPABILITIES & SERVICES (BENTO GRID) */}
+      <BentoServices />
 
       {/* 4. PINNED HORIZONTAL PROJECTS SHOWCASE (GRID PATTERN CARDS) */}
       <HorizontalProjects projects={projects} />
 
-      {/* 5. ACETERNITY SIGNATURE FOOTER WITH OVERSIZED WATERMARK */}
+      {/* 5. ACETERNITY SIGNATURE FOOTER & CONTACT */}
       <AceternityFooter />
     </div>
   );

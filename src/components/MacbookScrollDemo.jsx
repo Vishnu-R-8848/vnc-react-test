@@ -12,7 +12,11 @@ export function MacbookScrollDemo({ src = heroImg }) {
           </span>
         }
         badge={
-          <a href="https://peerlist.io/manuarora" target="_blank" rel="noreferrer">
+          <a
+            href="https://peerlist.io/manuarora"
+            target="_blank"
+            rel="noreferrer"
+          >
             <Badge className="h-10 w-10 -rotate-12 transform" />
           </a>
         }
