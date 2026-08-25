@@ -230,7 +230,7 @@ export default function InteractiveContact({ className = "" }) {
         ref={containerRef}
         onClick={handleCopy}
         title="Click to copy target link"
-        className="relative group cursor-pointer flex items-center justify-center text-xs sm:text-base font-bold font-mono tracking-tight text-white select-none py-2.5 px-5 rounded-2xl bg-[#0e0e11] border border-neutral-800 hover:border-neutral-700 hover:bg-[#141418] transition-all max-w-full shadow-lg"
+        className="relative group cursor-pointer flex items-center justify-center text-[11px] sm:text-sm md:text-base font-bold font-mono tracking-tight text-white select-none py-2 sm:py-2.5 px-3 sm:px-5 rounded-2xl bg-[#0e0e11] border border-neutral-800 hover:border-neutral-700 hover:bg-[#141418] transition-all max-w-full shadow-lg"
       >
         <span className="text-neutral-500 font-normal mr-1.5">@</span>
 
@@ -307,7 +307,7 @@ export default function InteractiveContact({ className = "" }) {
       {/* Social Selector Row with Header.jsx Dual Pill Spring Animation */}
       <nav
         onMouseLeave={() => setHoveredIndex(null)}
-        className="mt-3 relative flex items-center gap-1.5 p-1 rounded-full border border-neutral-800 bg-[#0e0e11] shadow-2xl"
+        className="mt-2.5 sm:mt-3 relative flex items-center gap-1 sm:gap-1.5 p-1 rounded-full border border-neutral-800 bg-[#0e0e11] shadow-2xl shrink-0"
       >
         {channels.map((channel, idx) => {
           const Icon = channel.icon;
@@ -329,13 +329,13 @@ export default function InteractiveContact({ className = "" }) {
                 setActiveChannel(channel);
               }}
               aria-label={channel.name}
-              className={`relative p-2.5 rounded-full cursor-pointer transition-colors duration-200 z-10 select-none ${
+              className={`relative p-2 sm:p-2.5 rounded-full cursor-pointer transition-colors duration-200 z-10 select-none ${
                 isActive
                   ? "text-white"
                   : "text-neutral-500 hover:text-neutral-200"
               }`}
             >
-              <Icon className="w-4 h-4 relative z-10" />
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10" />
 
               {/* Active Indicator Pill (Matches Header.jsx active-nav-pill spring) */}
               {isActive && (

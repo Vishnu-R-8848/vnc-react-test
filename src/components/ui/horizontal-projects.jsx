@@ -39,15 +39,18 @@ const IconGithub = (props) => (
 export const HorizontalProjects = ({ projects = [] }) => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
+  const [startX, setStartX] = useState(120);
   const [scrollRange, setScrollRange] = useState(600);
 
   const calculateScrollRange = () => {
-    if (trackRef.current) {
+    if (trackRef.current && typeof window !== "undefined") {
       const track = trackRef.current;
       const windowWidth = window.innerWidth;
       const trackWidth = track.scrollWidth;
-      const extraOffset = windowWidth < 640 ? 40 : 120;
-      const totalDistance = Math.max(trackWidth - windowWidth + extraOffset, 350);
+      const initialOffset = windowWidth < 640 ? 16 : windowWidth < 1024 ? 100 : 180;
+      setStartX(initialOffset);
+      const extraOffset = windowWidth < 640 ? 32 : 120;
+      const totalDistance = Math.max(trackWidth - windowWidth + extraOffset + initialOffset, 300);
       setScrollRange(totalDistance);
     }
   };
@@ -78,24 +81,24 @@ export const HorizontalProjects = ({ projects = [] }) => {
     mass: 0.15,
   });
 
-  const x = useTransform(smoothProgress, [0, 1], [300, -scrollRange]);
+  const x = useTransform(smoothProgress, [0, 1], [startX, -scrollRange]);
   const progressBarWidth = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-[240vh] sm:h-[260vh] w-full bg-[#050507]"
+      className="relative h-[220vh] sm:h-[260vh] w-full bg-[#050507]"
     >
       {/* Sticky Pinned Viewport Container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-6 sm:py-8 overflow-hidden select-none">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-4 sm:py-8 overflow-hidden select-none">
         
         {/* Section Header */}
-        <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex flex-col gap-2 z-20 shrink-0">
+        <div className="max-w-7xl w-full mx-auto px-4 sm:px-12 flex flex-col gap-2 z-20 shrink-0">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
+            <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-400">
               Featured Projects
             </h2>
-            <span className="font-mono text-xs text-neutral-500">
+            <span className="font-mono text-[10px] sm:text-xs text-neutral-500">
               {projects.length} Projects
             </span>
           </div>
@@ -114,13 +117,13 @@ export const HorizontalProjects = ({ projects = [] }) => {
           <motion.div
             ref={trackRef}
             style={{ x }}
-            className="flex gap-6 sm:gap-8 px-6 sm:px-16 w-max items-stretch"
+            className="flex gap-4 sm:gap-8 px-4 sm:px-16 w-max items-stretch"
           >
             {projects.map((project, index) => (
               <div
                 key={project.title}
                 className={cn(
-                  "w-[300px] h-[460px] flex-shrink-0 flex flex-col justify-between p-6 relative group/feature border border-neutral-800/90 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-neutral-900/80 to-neutral-950 overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700 hover:shadow-[0_25px_70px_rgba(0,0,0,0.95)]"
+                  "w-[270px] sm:w-[300px] h-[410px] sm:h-[460px] flex-shrink-0 flex flex-col justify-between p-5 sm:p-6 relative group/feature border border-neutral-800/90 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-neutral-900/80 to-neutral-950 overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700 hover:shadow-[0_25px_70px_rgba(0,0,0,0.95)]"
                 )}
               >
                 {/* SVG Grid Pattern Boxes Background */}
