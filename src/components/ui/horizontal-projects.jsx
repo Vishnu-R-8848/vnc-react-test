@@ -39,21 +39,32 @@ const IconGithub = (props) => (
 export const HorizontalProjects = ({ projects = [] }) => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
-  const [scrollRange, setScrollRange] = useState(1400);
+  const [scrollRange, setScrollRange] = useState(600);
+
+  const calculateScrollRange = () => {
+    if (trackRef.current) {
+      const track = trackRef.current;
+      const windowWidth = window.innerWidth;
+      const trackWidth = track.scrollWidth;
+      const extraOffset = windowWidth < 640 ? 40 : 120;
+      const totalDistance = Math.max(trackWidth - windowWidth + extraOffset, 350);
+      setScrollRange(totalDistance);
+    }
+  };
 
   useEffect(() => {
-    const calculateScrollRange = () => {
-      if (trackRef.current) {
-        const trackWidth = trackRef.current.scrollWidth;
-        const windowWidth = window.innerWidth;
-        const totalDistance = Math.max(0, trackWidth - windowWidth + 80);
-        setScrollRange(totalDistance);
-      }
-    };
-
     calculateScrollRange();
     window.addEventListener("resize", calculateScrollRange);
-    return () => window.removeEventListener("resize", calculateScrollRange);
+    
+    // Recalculate after DOM/fonts render
+    const t1 = setTimeout(calculateScrollRange, 100);
+    const t2 = setTimeout(calculateScrollRange, 400);
+
+    return () => {
+      window.removeEventListener("resize", calculateScrollRange);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [projects]);
 
   const { scrollYProgress } = useScroll({
@@ -62,34 +73,30 @@ export const HorizontalProjects = ({ projects = [] }) => {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    damping: 30,
-    stiffness: 200,
+    damping: 24,
+    stiffness: 140,
+    mass: 0.15,
   });
 
-  const x = useTransform(smoothProgress, [0, 1], [0, -scrollRange]);
+  const x = useTransform(smoothProgress, [0, 1], [300, -scrollRange]);
   const progressBarWidth = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-[320vh] w-full bg-[#050507]"
+      className="relative h-[240vh] sm:h-[260vh] w-full bg-[#050507]"
     >
       {/* Sticky Pinned Viewport Container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-8 sm:py-10 overflow-hidden select-none">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-6 sm:py-8 overflow-hidden select-none">
         
         {/* Section Header */}
-        <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex flex-col gap-2 z-20">
+        <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex flex-col gap-2 z-20 shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
-                Featured Projects
-              </h2>
-              <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400">
-                Horizontal Scroll
-              </span>
-            </div>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
+              Featured Projects
+            </h2>
             <span className="font-mono text-xs text-neutral-500">
-              {projects.length} Core Builds
+              {projects.length} Projects
             </span>
           </div>
 
@@ -102,18 +109,18 @@ export const HorizontalProjects = ({ projects = [] }) => {
           </div>
         </div>
 
-        {/* Horizontal Track with Spacious ~520px Height Cards */}
-        <div className="w-full overflow-hidden my-auto py-4">
+        {/* Horizontal Track */}
+        <div className="w-full overflow-hidden my-auto py-2">
           <motion.div
             ref={trackRef}
             style={{ x }}
-            className="flex gap-8 sm:gap-10 px-6 sm:px-14 w-max items-stretch"
+            className="flex gap-6 sm:gap-8 px-6 sm:px-16 w-max items-stretch"
           >
             {projects.map((project, index) => (
               <div
                 key={project.title}
                 className={cn(
-                  "w-[24rem] sm:w-[32rem] md:w-[38rem] h-[28rem] sm:h-[32rem] md:h-[34rem] flex-shrink-0 flex flex-col justify-between p-8 sm:p-10 relative group/feature border border-neutral-800/90 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-neutral-900/80 to-neutral-950 overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700 hover:shadow-[0_25px_70px_rgba(0,0,0,0.95)]"
+                  "w-[300px] h-[460px] flex-shrink-0 flex flex-col justify-between p-6 relative group/feature border border-neutral-800/90 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-neutral-900/80 to-neutral-950 overflow-hidden transition-all duration-300 shadow-2xl hover:border-neutral-700 hover:shadow-[0_25px_70px_rgba(0,0,0,0.95)]"
                 )}
               >
                 {/* SVG Grid Pattern Boxes Background */}
@@ -123,38 +130,38 @@ export const HorizontalProjects = ({ projects = [] }) => {
                 <div className="opacity-0 group-hover/feature:opacity-100 transition-opacity duration-500 absolute inset-0 bg-radial from-neutral-800/40 via-transparent to-transparent pointer-events-none" />
 
                 {/* Top Row: Icon + Number Badge */}
-                <div className="flex items-center justify-between relative z-20 mb-6">
-                  <div className="p-4 rounded-2xl bg-neutral-950/90 border border-neutral-800/90 text-neutral-300 group-hover/feature:text-white group-hover/feature:border-neutral-700 transition-colors shadow-lg">
+                <div className="flex items-center justify-between relative z-20 mb-4">
+                  <div className="p-3.5 rounded-2xl bg-neutral-950/90 border border-neutral-800/90 text-neutral-300 group-hover/feature:text-white group-hover/feature:border-neutral-700 transition-colors shadow-lg">
                     {project.icon}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[11px] px-3 py-1 rounded-full bg-neutral-950/80 border border-neutral-800/80 text-neutral-400">
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full bg-neutral-950/80 border border-neutral-800/80 text-neutral-400">
                       0{index + 1}
                     </span>
-                    <span className="font-mono text-[11px] px-3 py-1 rounded-full bg-neutral-900/60 border border-neutral-800/60 text-neutral-500">
-                      2026
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full bg-neutral-900/60 border border-neutral-800/60 text-neutral-500">
+                      {project.year}
                     </span>
                   </div>
                 </div>
 
                 {/* Content Area */}
-                <div className="relative z-20 space-y-4 flex-1">
+                <div className="relative z-20 space-y-3 flex-1 flex flex-col justify-start">
                   <div className="relative">
-                    <div className="absolute -left-8 sm:-left-10 inset-y-0 h-7 group-hover/feature:h-9 w-1 rounded-tr-full rounded-br-full bg-neutral-700 group-hover/feature:bg-neutral-300 transition-all duration-200 origin-center" />
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight group-hover/feature:translate-x-1 transition-transform duration-200">
+                    <div className="absolute -left-6 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-700 group-hover/feature:bg-neutral-300 transition-all duration-200 origin-center" />
+                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight group-hover/feature:translate-x-1 transition-transform duration-200">
                       {project.title}
                     </h3>
                   </div>
 
-                  <p className="text-sm sm:text-base text-neutral-300 font-normal leading-relaxed">
+                  <p className="text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed line-clamp-3">
                     {project.description}
                   </p>
 
-                  <div className="pt-2 flex flex-wrap gap-2">
+                  <div className="pt-1 flex flex-wrap gap-1.5">
                     {project.tech.split("•").map((item) => (
                       <span
                         key={item}
-                        className="inline-block px-3 py-1 rounded-md text-xs font-mono bg-neutral-950/80 border border-neutral-800 text-neutral-400"
+                        className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-neutral-950/80 border border-neutral-800 text-neutral-400"
                       >
                         {item.trim()}
                       </span>
@@ -162,22 +169,22 @@ export const HorizontalProjects = ({ projects = [] }) => {
                   </div>
                 </div>
 
-                {/* Footer: Tech Stack & Live Action Buttons */}
-                <div className="relative z-20 mt-8 pt-6 border-t border-neutral-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                {/* Footer: Year & Action Buttons */}
+                <div className="relative z-20 mt-5 pt-4 border-t border-neutral-800/80 flex items-center justify-between gap-2">
                   <span className="font-mono text-xs text-neutral-500">
-                    Production Application
+                    {project.year}
                   </span>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-neutral-200 transition-colors shadow-md active:scale-95 group/link cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3.5 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-neutral-200 transition-colors shadow-md active:scale-95 group/link cursor-pointer"
                       >
                         <span>Visit Live</span>
-                        <IconArrowUpRight className="w-4 h-4 text-black group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                        <IconArrowUpRight className="w-3.5 h-3.5 text-black group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                       </a>
                     )}
                     {project.githubUrl && (
@@ -185,9 +192,9 @@ export const HorizontalProjects = ({ projects = [] }) => {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-colors text-xs sm:text-sm font-medium active:scale-95 cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3 py-2 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700 transition-colors text-xs font-medium active:scale-95 cursor-pointer"
                       >
-                        <IconGithub className="w-4 h-4" />
+                        <IconGithub className="w-3.5 h-3.5" />
                         <span>Code</span>
                       </a>
                     )}
@@ -201,7 +208,7 @@ export const HorizontalProjects = ({ projects = [] }) => {
         {/* Bottom Navigation Hint */}
         <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 flex items-center justify-between text-xs font-mono text-neutral-500 z-20">
           <span>Scroll to explore projects</span>
-          <span>Horizontal Glide Active</span>
+          <span>{projects.length} Works</span>
         </div>
 
       </div>
