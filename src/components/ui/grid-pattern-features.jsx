@@ -29,10 +29,10 @@ export function GridPattern({
       <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${patternId})`} />
       {squares && (
         <svg x={x} y={y} className="overflow-visible">
-          {squares.map(([sqX, sqY]) => (
+          {squares.map(([sqX, sqY], idx) => (
             <rect
               strokeWidth="0"
-              key={`${sqX}-${sqY}`}
+              key={`${sqX}-${sqY}-${idx}`}
               width={width + 1}
               height={height + 1}
               x={sqX * width}

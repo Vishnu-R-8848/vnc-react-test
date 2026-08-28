@@ -1,55 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MacbookScroll } from "@/components/ui/macbook-scroll";
-import { SquigglyText } from "@/components/ui/squiggly-text";
+import ConferenceHero from "@/components/ConferenceHero";
 import { FlipWords } from "@/components/ui/flip-words";
-import { SparklesCore } from "@/components/ui/sparkles";
 import { ScrollMarquee } from "@/components/ui/velocity-marquee";
 import { HorizontalProjects } from "@/components/ui/horizontal-projects";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { LoaderFour } from "@/components/ui/loader";
 import { AceternityFooter } from "@/components/ui/aceternity-footer";
 import BentoServices from "@/components/BentoServices";
 import DraggableLifeBoard from "@/components/DraggableLifeBoard";
-import InteractiveContact from "@/components/InteractiveContact";
 import ContactSection from "@/components/ContactSection";
 import FluidLiquidCursor from "@/components/ui/fluid-cursor";
 import Header from "@/components/layout/Header";
-import heroImg from "@/assets/hero.png";
-
-// Custom Vishnu / VNC Verified Developer Badge ('V' letter)
-const VncBadge = ({ className }) => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 56 56"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <circle cx="28" cy="28" r="28" fill="#00AA45" />
-      <circle cx="28" cy="28" r="26" fill="#219653" />
-      <circle cx="28" cy="28" r="23" fill="#141416" stroke="#2b2b32" strokeWidth="1.5" />
-      
-      {/* Bold Geometric 'V' Letter */}
-      <path
-        d="M17 17 L25.6 38.8 C26.3 40.5 29.7 40.5 30.4 38.8 L39 17 H33.8 L28 32.2 L22.2 17 H17 Z"
-        fill="#FFFFFF"
-      />
-      <path
-        d="M20.2 17 L27 34 C27.4 35 28.6 35 29 34 L35.8 17 H33.8 L28 32.2 L22.2 17 H20.2 Z"
-        fill="url(#v-badge-glow)"
-      />
-      <defs>
-        <linearGradient id="v-badge-glow" x1="20" y1="17" x2="36" y2="35" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFFFFF" />
-          <stop offset="1" stopColor="#00E55B" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-};
 
 // Self-contained reliable SVG icons
 const IconArrowUpRight = (props) => (
@@ -245,9 +206,6 @@ export default function App() {
       {/* FLUID ORGANIC LIQUID CURSOR */}
       <FluidLiquidCursor />
 
-      {/* RESIZABLE FLOATING NAVBAR */}
-      <Header />
-
       {/* INITIAL SYSTEM LOADING SPLASH */}
       <AnimatePresence>
         {loading && (
@@ -262,116 +220,11 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* 1. 3D MACBOOK SCROLL HERO SHOWCASE */}
-      <section id="home" className="w-full overflow-hidden bg-[#050507] pt-6 sm:pt-12 pb-6">
-        <MacbookScroll
-          title={
-            <div className="flex flex-col items-center justify-center px-2">
-              <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-                Vishnu Naik Chouhan
-              </h2>
-              <div className="w-[18rem] sm:w-[28rem] md:w-[36rem] h-16 sm:h-20 relative mt-2 flex flex-col items-center">
-                <p className="text-sm sm:text-lg md:text-xl text-neutral-300 font-medium relative z-20 text-center tracking-wide">
-                  Full-Stack Engineer
-                </p>
+      {/* RESIZABLE FLOATING NAVBAR */}
+      <Header />
 
-                {/* Sparkling Gradients */}
-                <div className="absolute inset-x-4 sm:inset-x-16 top-5 sm:top-7 bg-gradient-to-r from-transparent via-neutral-400 to-transparent h-[2px] w-3/4 blur-sm" />
-                <div className="absolute inset-x-4 sm:inset-x-16 top-5 sm:top-7 bg-gradient-to-r from-transparent via-neutral-300 to-transparent h-px w-3/4" />
-                <div className="absolute inset-x-8 sm:inset-x-32 top-5 sm:top-7 bg-gradient-to-r from-transparent via-white to-transparent h-[3px] w-1/3 blur-sm" />
-                <div className="absolute inset-x-8 sm:inset-x-32 top-5 sm:top-7 bg-gradient-to-r from-transparent via-white to-transparent h-px w-1/3" />
-
-                {/* Core Sparkles Component */}
-                <SparklesCore
-                  background="transparent"
-                  minSize={0.4}
-                  maxSize={1.2}
-                  particleDensity={100}
-                  className="w-full h-full"
-                  particleColor="#FFFFFF"
-                />
-
-                {/* Radial gradient mask to prevent sharp edges */}
-                <div className="absolute inset-0 w-full h-full bg-[#050507] [mask-image:radial-gradient(300px_90px_at_top,transparent_20%,white)] pointer-events-none" />
-              </div>
-            </div>
-          }
-          badge={
-            <a
-              href="https://github.com/vishnu-naik-chouhan"
-              target="_blank"
-              rel="noreferrer"
-              title="Verified Developer Profile"
-            >
-              <VncBadge className="h-10 w-10 -rotate-12 transform hover:scale-110 transition-transform cursor-pointer drop-shadow-[0_8px_16px_rgba(0,170,69,0.3)]" />
-            </a>
-          }
-          src={heroImg}
-          showGradient={true}
-        >
-          {/* INSIDE MACBOOK DISPLAY SCREEN (The card that animates down on scroll) */}
-          <div className="h-full w-full bg-[#09090b] text-white flex flex-col justify-between p-3.5 sm:p-6 md:p-7 pointer-events-auto relative z-30">
-            {/* macOS Window Traffic Lights (Apple style) */}
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-[#FF5F56] border border-[#E0443E] shadow-xs" />
-              <span className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123] shadow-xs" />
-              <span className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-[#27C93F] border border-[#1AAB29] shadow-xs" />
-            </div>
-
-            {/* Profile Content inside MacBook - Centered */}
-            <div className="space-y-2 sm:space-y-3 my-auto max-w-lg mx-auto flex flex-col items-center justify-center text-center">
-              <div className="flex flex-col items-center">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
-                  <SquigglyText stepDuration={75} scale={[2, 5]}>
-                    Vishnu Naik Chouhan
-                  </SquigglyText>
-                </h1>
-
-                {/* Clean Aligned Sparkle Beam Subtitle */}
-                <div className="w-[16rem] sm:w-[20rem] md:w-[22rem] h-8 sm:h-10 relative mt-0.5 flex flex-col items-center justify-start">
-                  <p className="text-[11px] sm:text-xs md:text-sm text-neutral-200 font-medium relative z-20 text-center tracking-wide">
-                    Full-Stack Engineer
-                  </p>
-
-                  {/* Perfectly Centered Light Beams */}
-                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-neutral-400 to-transparent h-[2px] w-3/4 blur-xs" />
-                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-neutral-300 to-transparent h-px w-3/4" />
-                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-white to-transparent h-[2px] w-1/3 blur-xs" />
-                  <div className="absolute inset-x-0 mx-auto top-5 bg-gradient-to-r from-transparent via-white to-transparent h-px w-1/3" />
-
-                  {/* Core Sparkles Component */}
-                  <div className="w-full h-8 absolute top-1 inset-x-0 pointer-events-none">
-                    <SparklesCore
-                      background="transparent"
-                      minSize={0.4}
-                      maxSize={1.2}
-                      particleDensity={85}
-                      className="w-full h-full"
-                      particleColor="#FFFFFF"
-                    />
-                  </div>
-
-                  {/* Radial gradient mask */}
-                  <div className="absolute inset-0 w-full h-full bg-[#09090b] [mask-image:radial-gradient(180px_35px_at_top,transparent_15%,white)] pointer-events-none" />
-                </div>
-              </div>
-
-              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-md font-normal">
-                I build fast, responsive web applications and modern user
-                interfaces with React, Next.js, Node.js, and MongoDB.
-              </p>
-
-              {/* Interactive Address Bar & Social Channel Selector */}
-              <div className="w-full pt-1">
-                <InteractiveContact compact={true} />
-              </div>
-            </div>
-
-            {/* Bottom spacer */}
-            <div className="h-1" />
-          </div>
-        </MacbookScroll>
-      </section>
+      {/* 1. HERO SECTION (WEBGPU SHADERS BACKDROP + GEIST TYPOGRAPHY) */}
+      <ConferenceHero />
 
       {/* 2. ABOUT & SKILLS */}
       <section id="about" className="max-w-4xl w-full mx-auto px-6 py-12 space-y-4">
@@ -386,7 +239,7 @@ export default function App() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
             About
           </h2>
-          <p className="text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
+          <div className="text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
             I am a full-stack engineer building{" "}
             <FlipWords
               words={["scalable", "modern", "fast", "resilient"]}
@@ -394,7 +247,7 @@ export default function App() {
             />{" "}
             web applications with clean architecture, accessible interfaces, and
             scalable backend APIs.
-          </p>
+          </div>
 
           <div className="pt-4 space-y-2.5 w-full overflow-hidden">
             <ScrollMarquee items={techStackRow1} baseVelocity={-1.5} direction={-1} />
